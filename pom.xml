@@ -1,0 +1,275 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.acme</groupId>
+	<artifactId>fppdf-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<name>FpPDF</name>
+	<url>https://kb.acme.com/display/FpPdf</url>
+
+	<modules>
+		<module>modules/fppdf-web</module>
+		<module>modules/fppdf-transform</module>
+		<module>modules/fppdf-bundle</module>
+	</modules>
+
+	<properties>
+
+		<project.version>0.0.1-SNAPSHOT</project.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven-compiler.version>2.3.2</maven-compiler.version>
+		<maven-release.version>2.2.1</maven-release.version>
+		<maven-war-plugin.version>2.3</maven-war-plugin.version>
+		<maven-assembly-plugin.version>2.3</maven-assembly-plugin.version>
+
+		<java.version>1.7</java.version>
+		<logback.version>1.0.2</logback.version>
+		<slf4j.version>1.6.4</slf4j.version>
+		<junit.version>4.8.2</junit.version>
+		<mockito.version>1.9.0</mockito.version>
+		<maven-jaxb-schemagen-plugin.version>1.2</maven-jaxb-schemagen-plugin.version>
+		<maven.failsafe.version>2.12.4</maven.failsafe.version>
+
+		<!-- Other Code Checking -->
+		<findbugs.version>2.3.3</findbugs.version>
+		<maven-pmd-plugin.version>2.6</maven-pmd-plugin.version>
+
+		<maven-checkstyle-plugin.version>2.10-SNAPSHOT</maven-checkstyle-plugin.version>
+		<checkstyle.version>5.6</checkstyle.version>
+		<code-conventions.version>1.0-M1</code-conventions.version>
+		<jxr.version>2.3</jxr.version>
+
+		<!-- Reporting -->
+		<maven-project-info-reports.version>2.4</maven-project-info-reports.version>
+		<site.plugin.version>3.2</site.plugin.version>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	
+	</properties>
+
+
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>apache.snapshots</id>
+			<name>Apache Snapshots</name>
+			<url>http://repository.apache.org/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+
+	<dependencies>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${maven-checkstyle-plugin.version}</version>
+					<configuration></configuration>
+				</plugin>
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler.version}</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<debug>true</debug>
+						<optimize>true</optimize>
+						<showDeprecation>false</showDeprecation>
+						<verbose>false</verbose>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven-war-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.6.0.201210061924</version>
+					<configuration>
+						<destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
+						<datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
+					</configuration>
+					<executions>
+						<execution>
+							<id>jacoco-initialize</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>jacoco-site</id>
+							<phase>package</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>2.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${site.plugin.version}</version>
+					<configuration>
+						<generateSitemap>true</generateSitemap>
+						<reportPlugins>
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-project-info-reports-plugin</artifactId>
+								<version>${maven-project-info-reports.version}</version>
+							</plugin>
+							<plugin>
+								<artifactId>maven-javadoc-plugin</artifactId>
+								<version>2.9</version>
+								<configuration>
+									<quiet>true</quiet>
+								</configuration>
+							</plugin>
+							<plugin>
+								<artifactId>maven-jxr-plugin</artifactId>
+								<version>${jxr.version}</version>
+							</plugin>
+							<plugin>
+								<artifactId>maven-checkstyle-plugin</artifactId>
+							</plugin>
+							<plugin>
+								<artifactId>maven-surefire-report-plugin</artifactId>
+								<version>2.12.4</version>
+							</plugin>
+							<plugin>
+								<artifactId>maven-dependency-plugin</artifactId>
+							</plugin>
+							<plugin>
+								<groupId>org.codehaus.mojo</groupId>
+								<artifactId>taglist-maven-plugin</artifactId>
+								<version>2.4</version>
+								<configuration>
+									<tagListOptions>
+										<tagClasses>
+											<tagClass>
+												<displayName>Known Faulty Spots</displayName>
+												<tags>
+													<tag>
+														<matchString>fixme</matchString>
+														<matchType>ignoreCase</matchType>
+													</tag>
+													<tag>
+														<matchString>xxx</matchString>
+														<matchType>ignoreCase</matchType>
+													</tag>
+												</tags>
+											</tagClass>
+											<tagClass>
+												<displayName>Todo Work</displayName>
+												<tags>
+													<tag>
+														<matchString>(?i)@?todo</matchString>
+														<matchType>regEx</matchType>
+													</tag>
+												</tags>
+											</tagClass>
+											<tagClass>
+												<displayName>Deprecated API</displayName>
+												<tags>
+													<tag>
+														<matchString>@deprecated</matchString>
+														<matchType>exact</matchType>
+													</tag>
+												</tags>
+											</tagClass>
+										</tagClasses>
+									</tagListOptions>
+								</configuration>
+							</plugin>
+						</reportPlugins>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${maven.failsafe.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includes>
+						<include>**/IT*.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+
+
+	<version>0.0.1-SNAPSHOT</version>
+	<organization>
+	    <name>Acme Systems</name>
+	    <url>http://www.acme.com</url>
+	</organization>
+	<description>Convert Freeplane mind maps to PDF</description>
+	<inceptionYear>2012</inceptionYear>
+	
+</project>
