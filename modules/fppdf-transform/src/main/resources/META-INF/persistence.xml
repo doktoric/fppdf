@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence">
+	<persistence-unit name="persistenceUnit" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<properties>
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/fppdf?autoReconnect=true" />
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.password" value="dontChangeMe" />
+			<property name="hibernate.connection.username" value="fppdf" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show.sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+
+            <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
+            <property name="hibernate.c3p0.max_size" value="5" />
+            <property name="hibernate.c3p0.min_size" value="1" />
+            <property name="hibernate.c3p0.timeout" value="3600" />
+            <property name="hibernate.c3p0.max_statements" value="50" />
+            <property name="hibernate.c3p0.idle_test_period" value="3600" />
+            <property name="hibernate.c3p0.acquire_increment" value="3" />
+		</properties>
+	</persistence-unit>
+</persistence>
